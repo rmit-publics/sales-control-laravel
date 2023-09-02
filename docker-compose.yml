@@ -1,0 +1,49 @@
+version: '3.5'
+
+services:
+  laravel-app:
+    build:
+      context: '.'
+      args:
+        uid: ${UID}
+    container_name: laravel-app
+    ports:
+      - 8000:80
+    environment:
+      - APACHE_RUN_USER=#1000
+      - APACHE_RUN_GROUP=#1000
+    volumes:
+      - .:/var/www/html
+    networks:
+      backend:
+        aliases:
+          - app
+
+  database_mysql:
+    image: mysql:8
+    restart: always
+    container_name: database_mysql
+    command: --default-authentication-plugin=mysql_native_password
+    ports:
+      - 3306:3306
+    expose:
+      - '3306'
+    environment:
+      MYSQL_ROOT_PASSWORD: "sale-control"
+      MYSQL_DATABASE: "sale-control"
+      MYSQL_USER: "sale-control"
+      MYSQL_PASSWORD: "sale-control"
+    volumes:
+      - sale-control-data-base:/var/lib/mysql
+    networks:
+      backend:
+        aliases:
+          - database_mysql
+
+networks:
+  backend:
+    name: backend-network
+
+
+volumes:
+  sale-control-data-base:
