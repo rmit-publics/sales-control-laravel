@@ -1,6 +1,7 @@
 <?php
 
 use App\Models\Region;
+use App\Models\Store;
 use App\Models\User;
 use Illuminate\Database\Seeder;
 
@@ -24,7 +25,7 @@ class StoreSeeder extends Seeder
 
     public function run()
     {
-        return [
+        $stores = [
             [
                 "name"       => "Porto Alegre",
                 "email"      => "ronaldinho.gaucho@magazineaziul.com.br",
@@ -106,5 +107,7 @@ class StoreSeeder extends Seeder
                 "lng"        => "-56.09832706558089",
             ],
         ];
+
+        Store::insert($stores);
     }
 }

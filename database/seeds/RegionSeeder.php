@@ -1,6 +1,8 @@
 <?php
 
+use App\Models\Region;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\DB;
 
 class RegionSeeder extends Seeder
 {
@@ -11,7 +13,7 @@ class RegionSeeder extends Seeder
      */
     public function run()
     {
-        return[
+        $regions = [
             [
                 "name" => "Sul",
             ],
@@ -21,6 +23,8 @@ class RegionSeeder extends Seeder
             [
                 "name" => "Centro-oeste",
             ],
-        ]
+        ];
+
+        Region::insert($regions);
     }
 }
