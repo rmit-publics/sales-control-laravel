@@ -2,11 +2,16 @@
 
 namespace App\Http\Controllers;
 
-use App\User;
+use App\Models\User;
 use Illuminate\Http\Request;
+use App\UseCases\User\LoginUseCase;
 
 class UserController extends Controller
 {
+    private $loginUseCase;
+    public function __construct() {
+        $this->loginUseCase = new LoginUseCase();
+    }
     /**
      * Display a listing of the resource.
      *
@@ -24,7 +29,7 @@ class UserController extends Controller
      */
     public function create()
     {
-        //
+
     }
 
     /**
@@ -81,5 +86,13 @@ class UserController extends Controller
     public function destroy(User $user)
     {
         //
+    }
+
+    public function login() {
+        return view('login.login');
+    }
+
+    public function authenticate(Request $request) {
+        return $this->loginUseCase->execute($request);
     }
 }

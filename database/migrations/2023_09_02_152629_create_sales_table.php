@@ -17,6 +17,7 @@ class CreateSalesTable extends Migration
             $table->bigIncrements('id');
             $table->unsignedBigInteger('seller_id');
             $table->unsignedBigInteger('product_id');
+            $table->integer('quantity')->default(1);
             $table->integer('lat');
             $table->integer('lng');
             $table->boolean('roming')->default(false);

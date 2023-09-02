@@ -2,11 +2,16 @@
 
 namespace App\Http\Controllers;
 
-use App\Sale;
+use App\Models\Sale;
 use Illuminate\Http\Request;
+use App\UseCases\Sale\CreateSaleUseCase;
 
 class SaleController extends Controller
 {
+    private $createSaleUseCase;
+    public function __construct() {
+        $this->createSaleUseCase = new CreateSaleUseCase();
+    }
     /**
      * Display a listing of the resource.
      *
@@ -24,7 +29,7 @@ class SaleController extends Controller
      */
     public function create()
     {
-        //
+        return view('sales.create-sale');
     }
 
     /**
@@ -35,7 +40,7 @@ class SaleController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        return $this->createSaleUseCase->execute($request);
     }
 
     /**

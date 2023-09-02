@@ -1,5 +1,7 @@
 <?php
 
+use App\Http\Controllers\SaleController;
+use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -13,6 +15,8 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+Route::get('/',[UserController::class, 'login']);
+Route::post('/login',[UserController::class, 'authenticate']);
+Route::get('/sale/create',[SaleController::class, 'create']);
+Route::get('/sale/create',[SaleController::class, 'create']);
+Route::post('/sale/create',[SaleController::class, 'store']);
