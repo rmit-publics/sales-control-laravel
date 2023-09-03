@@ -86,26 +86,20 @@
                 center: { lat: -34.397, lng: 150.644 }, // Coordenadas iniciais do mapa
                 zoom: 8, // Nível de zoom inicial
             };
-
+            var bounds = new google.maps.LatLngBounds();
             var map = new google.maps.Map(document.getElementById('map'), mapOptions);
 
             // Dados dos marcadores
             var markersData = [
+                @foreach ($stores as $store)
                 {
-                    position: { lat: -34.397, lng: 150.644 },
-                    title: 'Marcador 1',
-                    content: 'Conteúdo do Marcador 1'
+                    position: { lat: {{$store->lat}}, lng: {{$store->lng}} },
+                    title: '{{$store->name}}',
+                    content: '{{$store->name}}',
+                    amount: {{$store->amount}}
                 },
-                {
-                    position: { lat: -33.867, lng: 151.206 },
-                    title: 'Marcador 2',
-                    content: 'Conteúdo do Marcador 2'
-                },
-                {
-                    position: { lat: -33.900, lng: 151.259 },
-                    title: 'Marcador 3',
-                    content: 'Conteúdo do Marcador 3'
-                }
+                @endforeach
+
             ];
 
             // Loop para criar e adicionar marcadores com janelas de informações
@@ -120,11 +114,30 @@
                     content: markersData[i].content
                 });
 
+                if(markersData[i].amount > 0) {
+                    var center = new google.maps.LatLng(markersData[i].position.lat,  markersData[i].position.lng);
+                    var radius = markersData[i].amount * 10000; // Define o raio em metros
+
+                    var circle = new google.maps.Circle({
+                        center: center,
+                        radius: radius,
+                        map: map,
+                        fillColor: '#FF0000', // Cor de preenchimento do círculo
+                        fillOpacity: 0.35, // Opacidade do preenchimento
+                        strokeColor: '#FF0000', // Cor da borda
+                        strokeOpacity: 0.8, // Opacidade da borda
+                        strokeWeight: 2 // Largura da borda
+                    });
+                }
                 // Adicione um evento de clique para exibir a janela de informações quando o marcador for clicado
                 marker.addListener('click', function () {
                     infoWindow.open(map, this);
                 });
+                bounds.extend(marker.position)
             }
+
+            map.fitBounds(bounds);
+
         }
 </script>
 @endsection
