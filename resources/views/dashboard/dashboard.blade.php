@@ -61,7 +61,7 @@
     async function getStores() {
         document.getElementById('store_id').innerText = null;
         var regionIdd = document.getElementById("region_id").value;
-        const sellers = await fetch(`/store/getStore/${regionIdd}`)
+        const sellers = await fetch(`/store/getStoreByRegion/${regionIdd}`)
         var data = await sellers.json();
         for (let i = 0; i < data.length; i++) {
             var select = document.getElementById("store_id");

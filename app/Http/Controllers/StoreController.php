@@ -88,7 +88,11 @@ class StoreController extends Controller
         //
     }
 
-    public function getStore(int $region_id) {
+    public function getStoreByRegion(int $region_id) {
         return $this->getStoreUseCase->execute($region_id);
+    }
+
+    public function getStoreByManager(int $manager_id) {
+        return Store::where('manager_id', $manager_id)->get();
     }
 }

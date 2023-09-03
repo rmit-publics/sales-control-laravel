@@ -35,4 +35,8 @@ class Store extends Model
             }
         }
     }
+
+    public function StoreRegion() {
+        return $this->hasOne(Region::class, 'id', 'region_id');
+    }
 }

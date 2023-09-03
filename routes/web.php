@@ -22,7 +22,10 @@ Route::post('/login',[UserController::class, 'authenticate']);
 
 Route::middleware(['web'])->group(function(){
     Route::get('/user/getSellers/{store_id}',[UserController::class, 'getSeller']);
-    Route::get('/store/getStore/{region_id}',[StoreController::class, 'getStore']);
+    Route::get('/store/getStoreByRegion/{region_id}',[StoreController::class, 'getStoreByRegion']);
+    Route::get('/store/getStoreByManager/{manager_id}',[StoreController::class, 'getStoreByManager']);
+    Route::get('/store/getStore/{region_id}',[StoreController::class, 'getStoreByRegion']);
+    Route::get('/sales',[SaleController::class, 'index']);
     Route::get('/sale/create',[SaleController::class, 'create']);
     Route::get('/sale/create',[SaleController::class, 'create']);
     Route::post('/sale/create',[SaleController::class, 'store']);

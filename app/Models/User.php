@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
@@ -47,4 +48,26 @@ class User extends Authenticatable
     public function getSellers(int $store_id) {
         return $this->where('store_id', $store_id)->where('access', 'S')->get();
     }
+
+    public function getMenagers() {
+        $user = Auth::user();
+        $managers = Store::when($user->access === 'RD', function($rd) use($user) {
+            $regionManager = RegionManager::where('user_id', $user->id)->first();
+            $rd->where('region_id', $regionManager->region_id);
+        })
+        ->when($user->access === 'M', function($rd) use($user) {
+            $rd->where('manager_id', $user->id);
+        })
+        ->when($user->access === 'S', function($rd) use($user) {
+            $rd->where('id', '-1');
+        })
+        ->select('manager_id')->get();
+
+        return $this->whereIn('id', $managers)->where('access', 'M')->get();
+    }
+
+    public function SellerStore() {
+        return $this->hasOne(Store::class, 'id', 'store_id');
+    }
+
 }

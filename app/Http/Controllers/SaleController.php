@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Models\Sale;
+use App\Models\Store;
+use App\Models\User;
 use Illuminate\Http\Request;
 use App\UseCases\Sale\CreateSaleUseCase;
 
@@ -19,7 +21,15 @@ class SaleController extends Controller
      */
     public function index()
     {
-        //
+        $user = new User();
+        $sales = Sale::auth()->get();
+        $managers = $user->getMenagers();
+        return view('sales.list-sales',
+            [
+                'sales' => $sales,
+                'managers' => $managers,
+            ]
+        );
     }
 
     /**
