@@ -16,10 +16,12 @@ class CreateSalesTable extends Migration
         Schema::create('sales', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->unsignedBigInteger('seller_id');
-            $table->unsignedBigInteger('product_id');
+            $table->string('product');
+            $table->unsignedBigInteger('store_id');
+            $table->unsignedBigInteger('close_store_id')->nullable();
             $table->integer('quantity')->default(1);
-            $table->integer('lat');
-            $table->integer('lng');
+            $table->double("lat");
+            $table->double("lng");
             $table->boolean('roming')->default(false);
             $table->timestamps();
             $table->softDeletes();

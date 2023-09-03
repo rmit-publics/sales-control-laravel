@@ -19,8 +19,8 @@ class CreateStoresTable extends Migration
             $table->string("email");
             $table->unsignedBigInteger("region_id");
             $table->unsignedBigInteger("manager_id");
-            $table->integer("lat");
-            $table->integer("lng");
+            $table->double("lat");
+            $table->double("lng");
             $table->timestamps();
             $table->softDeletes();
         });

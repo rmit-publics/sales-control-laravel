@@ -58,7 +58,7 @@
         </div>
 
         <div class="right">
-            <button type="button" class="btn btn-primary">Nova Venda</button>
+            <a href="/sale/create" type="button" class="btn btn-primary">Nova Venda</a>
         </div>
 
         <table class="table">

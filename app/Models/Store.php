@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 
 class Store extends Model
 {
@@ -38,5 +39,20 @@ class Store extends Model
 
     public function StoreRegion() {
         return $this->hasOne(Region::class, 'id', 'region_id');
+    }
+
+    public function getDistanceStores($lat, $lng) {
+        $stores = DB::select('select * from (
+            select
+            s.id,
+            ST_DISTANCE_SPHERE(
+                    POINT(s.lat , s.lng),
+                    POINT('.$lat.', '.$lng.')
+                ) AS distancia
+            from stores s
+        ) x
+        order by x.distancia');
+
+        return $stores[0];
     }
 }
