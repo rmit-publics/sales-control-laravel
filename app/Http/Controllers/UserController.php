@@ -3,14 +3,17 @@
 namespace App\Http\Controllers;
 
 use App\Models\User;
+use App\UseCases\User\GetSellerUseCase;
 use Illuminate\Http\Request;
 use App\UseCases\User\LoginUseCase;
 
 class UserController extends Controller
 {
     private $loginUseCase;
+    private $getSellerUseCase;
     public function __construct() {
         $this->loginUseCase = new LoginUseCase();
+        $this->getSellerUseCase = new GetSellerUseCase();
     }
     /**
      * Display a listing of the resource.
@@ -94,5 +97,9 @@ class UserController extends Controller
 
     public function authenticate(Request $request) {
         return $this->loginUseCase->execute($request);
+    }
+
+    public function getSeller(int $store_id) {
+        return $this->getSellerUseCase->execute($store_id);
     }
 }

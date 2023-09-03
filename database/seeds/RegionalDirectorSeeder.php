@@ -1,5 +1,7 @@
 <?php
 
+use App\Models\Region;
+use App\Models\RegionManager;
 use App\Models\User;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Hash;
@@ -11,6 +13,18 @@ class RegionalDirectorSeeder extends Seeder
      *
      * @return void
      */
+
+
+    public function getRegion(string $name) {
+        $region = Region::where('name', $name)->first();
+        return $region->id;
+    }
+
+    public function getUser(string $name) {
+        $user = User::where("name", $name)->first();
+        return $user->id;
+    }
+
     public function run()
     {
         $users = [
@@ -34,5 +48,22 @@ class RegionalDirectorSeeder extends Seeder
             ]
         ];
         User::insert($users);
+
+        $regionUsers = [
+            [
+                "region_id" => $this->getRegion('Sul'),
+                "user_id"   => $this->getUser('Vagner Mancini')
+            ],
+            [
+                "region_id" => $this->getRegion('Sudeste'),
+                "user_id"   => $this->getUser('Abel Ferreira')
+            ],
+            [
+                "region_id" => $this->getRegion('Centro-oeste'),
+                "user_id"   => $this->getUser('Rogerio Ceni')
+            ],
+        ];
+
+        RegionManager::insert($regionUsers);
     }
 }

@@ -2,11 +2,16 @@
 
 namespace App\Http\Controllers;
 
-use App\Store;
+use App\Models\Store;
+use App\UseCases\Store\GetStoreUseCase;
 use Illuminate\Http\Request;
 
 class StoreController extends Controller
 {
+    private $getStoreUseCase;
+    public function __construct() {
+        $this->getStoreUseCase = new GetStoreUseCase();
+    }
     /**
      * Display a listing of the resource.
      *
@@ -81,5 +86,9 @@ class StoreController extends Controller
     public function destroy(Store $store)
     {
         //
+    }
+
+    public function getStore(int $region_id) {
+        return $this->getStoreUseCase->execute($region_id);
     }
 }
