@@ -30,7 +30,7 @@ class Sale extends Model
 
             if($user->access ==='M') {
                 $store = Store::where('manager_id', $user->id)->select('id')->first();
-                $sellers = User::where('store_id', $store->id)->get();
+                $sellers = User::where('store_id', $store->id)->select('id')->get();
                 $query->whereIn('seller_id', $sellers);
             }
 

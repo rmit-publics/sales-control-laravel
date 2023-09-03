@@ -32,6 +32,40 @@ class SaleController extends Controller
         );
     }
 
+    public function search(Request $request) {
+        $user = new User();
+        $sales = Sale::auth()
+            ->when($request->input('date_ini') != null && $request->input('date_end') != null,
+                function($query) use($request) {
+                    $query->whereBetween('created_at', [$request->input('date_ini'), $request->input('date_end')]);
+                }
+            )
+            ->when($request->input("manager_id") != null, function($query) use($request) {
+                $seller = new User();
+                $store = Store::where("manager_id", $request->input("manager_id"))->first();
+                $sellers = $seller->getSellers($store->id);
+                $sellersId = collect($sellers)->pluck('id')->toArray();
+                $query->where('seller_id', $sellersId);
+            })
+            ->when($request->input("store_id") != null, function($query) use($request) {
+                $seller = new User();
+                $sellers = $seller->getSellers($request->input("store_id"));
+                $sellersId = collect($sellers)->pluck('id')->toArray();
+                $query->where('seller_id', $sellersId);
+            })
+            ->when($request->input("seller_id") != null, function($query) use($request) {
+                $query->where('seller_id',$request->input("seller_id"));
+            })
+        ->get();
+
+        $managers = $user->getMenagers();
+        return view('sales.list-sales',
+            [
+                'sales' => $sales,
+                'managers' => $managers,
+            ]
+        );
+    }
     /**
      * Show the form for creating a new resource.
      *

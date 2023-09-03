@@ -6,51 +6,54 @@
 
         <div class="card">
             <div class="card-body">
-                <div class="row">
-                    <div class="col-sm-2">
-                        <div class="form-group">
-                            <label for="exampleInputEmail1">Data de Início</label>
-                            <input type="date" class="form-control" id="date_ini" name="date_ini">
+                <form method="POST" action="/sales">
+                    @csrf
+                    <div class="row">
+                        <div class="col-sm-2">
+                            <div class="form-group">
+                                <label for="exampleInputEmail1">Data de Início</label>
+                                <input type="date" class="form-control" id="date_ini" name="date_ini">
+                            </div>
                         </div>
-                    </div>
-                    <div class="col-sm-2">
-                        <div class="form-group">
-                            <label for="exampleInputEmail1">Data Final</label>
-                            <input type="date" class="form-control" id="date_end" name="date_end">
+                        <div class="col-sm-2">
+                            <div class="form-group">
+                                <label for="exampleInputEmail1">Data Final</label>
+                                <input type="date" class="form-control" id="date_end" name="date_end">
+                            </div>
                         </div>
-                    </div>
-                    @if(Auth::user()->access !== 'S')
-                    <div class="col-sm-2">
-                        <div class="form-group">
-                            <label for="exampleInputEmail1">Gerente</label>
-                            <select onchange="getStores()" id="manager_id" name="manager_id" class="form-control form-control">
-                                @foreach ($managers as $manager)
-                                <option value="{{$manager->id}}">{{$manager->name}}</option>
-                                @endforeach
-                            </select>
+                        @if(Auth::user()->access !== 'S')
+                        <div class="col-sm-2">
+                            <div class="form-group">
+                                <label for="exampleInputEmail1">Gerente</label>
+                                <select onchange="getStores()" id="manager_id" name="manager_id" class="form-control form-control">
+                                    @foreach ($managers as $manager)
+                                    <option value="{{$manager->id}}">{{$manager->name}}</option>
+                                    @endforeach
+                                </select>
+                            </div>
                         </div>
-                    </div>
-                    <div class="col-sm-2">
-                        <div class="form-group">
-                            <label for="exampleInputEmail1">Loja</label>
-                            <select onchange="getStores()" id="store_id" name="store_id" class="form-control form-control">
+                        <div class="col-sm-2">
+                            <div class="form-group">
+                                <label for="exampleInputEmail1">Loja</label>
+                                <select onchange="getStores()" id="store_id" name="store_id" class="form-control form-control">
 
-                            </select>
+                                </select>
+                            </div>
                         </div>
-                    </div>
-                    <div class="col-sm-2">
-                        <div class="form-group">
-                            <label for="exampleInputEmail1">Vendedor</label>
-                            <select id="seller_id" name="seller_id" class="form-control form-control">
+                        <div class="col-sm-2">
+                            <div class="form-group">
+                                <label for="exampleInputEmail1">Vendedor</label>
+                                <select id="seller_id" name="seller_id" class="form-control form-control">
 
-                            </select>
+                                </select>
+                            </div>
+                        </div>
+                        @endif
+                        <div class="col-sm-2">
+                            <button type="submit" class="btn btn-primary button">Pesquisar</button>
                         </div>
                     </div>
-                    @endif
-                    <div class="col-sm-2">
-                        <button type="button" class="btn btn-primary button">Pesquisar</button>
-                    </div>
-                </div>
+                </form>
             </div>
         </div>
 

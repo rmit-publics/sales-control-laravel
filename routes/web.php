@@ -25,6 +25,7 @@ Route::middleware(['web'])->group(function(){
     Route::get('/store/getStoreByRegion/{region_id}',[StoreController::class, 'getStoreByRegion']);
     Route::get('/store/getStoreByManager/{manager_id}',[StoreController::class, 'getStoreByManager']);
     Route::get('/store/getStore/{region_id}',[StoreController::class, 'getStoreByRegion']);
+    Route::post('/sales',[SaleController::class, 'search']);
     Route::get('/sales',[SaleController::class, 'index']);
     Route::get('/sale/create',[SaleController::class, 'create']);
     Route::get('/sale/create',[SaleController::class, 'create']);
