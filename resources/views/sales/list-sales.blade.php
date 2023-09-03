@@ -65,9 +65,9 @@
             <thead>
             <tr>
                 <th scope="col">#</th>
-                <th scope="col">First</th>
-                <th scope="col">Last</th>
-                <th scope="col">Handle</th>
+                <th scope="col">Produto</th>
+                <th scope="col">Vendedor</th>
+                <th scope="col">Valor</th>
                 <th scope="col">Ações</th>
             </tr>
             </thead>

@@ -24,8 +24,16 @@
                 <input type="text" class="form-control" id="product" name="product">
             </div>
             <div class="form-group">
-                <label for="exampleInputEmail1">Quantia</label>
-                <input type="number" class="form-control" id="quantity" name="quantity">
+                <label for="exampleInputEmail1">Valor</label>
+                <input type="number" class="form-control" id="amount" name="amount">
+            </div>
+            <div class="form-group">
+                <label for="exampleInputEmail1">Data</label>
+                <input type="date" class="form-control" id="date" name="date">
+            </div>
+            <div class="form-group">
+                <label for="exampleInputEmail1">Hora</label>
+                <input type="time" class="form-control" id="time" name="time">
             </div>
             <div class="form-group">
                 <label for="exampleInputEmail1">Latitude</label>
@@ -39,7 +47,13 @@
         </form>
     </div>
 </div>
+<script>
+    function format (){
+        let val = +currencyfield.value;
+        document.querySelector(".amount").textContent =  val.toLocaleString('fullwide', {maximumFractionDigits:2, style:'currency', currency:'USD', useGrouping:true})
 
+    }
+</script>
 <style>
     .card {
         min-width: 400px;

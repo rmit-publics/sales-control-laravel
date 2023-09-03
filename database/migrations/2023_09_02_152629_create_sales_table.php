@@ -19,7 +19,9 @@ class CreateSalesTable extends Migration
             $table->string('product');
             $table->unsignedBigInteger('store_id');
             $table->unsignedBigInteger('close_store_id')->nullable();
-            $table->integer('quantity')->default(1);
+            $table->decimal('amount', 10, 2);
+            $table->date('date');
+            $table->time('time');
             $table->double("lat");
             $table->double("lng");
             $table->boolean('roming')->default(false);

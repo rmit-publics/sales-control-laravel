@@ -20,6 +20,9 @@ class CreateSaleUseCase {
                 "store_id"       => Auth::user()->store_id,
                 "close_store_id" => $roming->id !== Auth::user()->store_id ? $roming->id : null,
                 "product"        => $request->input("product"),
+                "amount"         => $request->input("amount"),
+                "date"           => $request->input("date"),
+                "time"           => $request->input("time"),
                 "quantity"       => $request->input("quantity"),
                 "lat"            => $request->input("lat"),
                 "lng"            => $request->input("lng"),
@@ -39,7 +42,9 @@ class CreateSaleUseCase {
     private function rules(Request $request) {
         $request->validate([
             'product'    => 'required',
-            'quantity'   => 'required',
+            'amount'     => 'required',
+            'date'       => 'required',
+            'time'       => 'required',
             'lat'        => 'required',
             'lng'        => 'required',
         ]);
