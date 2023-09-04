@@ -23,18 +23,17 @@ class CreateSaleUseCase {
                 "amount"         => $request->input("amount"),
                 "date"           => $request->input("date"),
                 "time"           => $request->input("time"),
-                "quantity"       => $request->input("quantity"),
                 "lat"            => $request->input("lat"),
                 "lng"            => $request->input("lng"),
                 "roming"         => $roming->id !== Auth::user()->store_id
             ]);
 
-            return redirect()->back()->with('status', 'Sale create with success');
+            return true;
         }catch(Exception $e) {
             Log::error([
                 "error"=>$e->getMessage()
             ]);
-            return redirect()->back()->with('status', 'Error to create sale');
+            return false;
         }
     }
 

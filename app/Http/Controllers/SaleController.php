@@ -6,13 +6,13 @@ use App\Models\Sale;
 use App\Models\Store;
 use App\Models\User;
 use Illuminate\Http\Request;
-use App\UseCases\Sale\CreateSaleUseCase;
+use App\UseCases\Sale\CreateSaleWebUseCase;
 
 class SaleController extends Controller
 {
     private $createSaleUseCase;
     public function __construct() {
-        $this->createSaleUseCase = new CreateSaleUseCase();
+        $this->createSaleUseCase = new CreateSaleWebUseCase();
     }
     /**
      * Display a listing of the resource.

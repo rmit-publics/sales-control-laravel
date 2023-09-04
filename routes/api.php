@@ -1,5 +1,7 @@
 <?php
 
+use App\Http\Controllers\Api\SaleApiController;
+use App\Http\Controllers\Api\UserApiController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -16,4 +18,11 @@ use Illuminate\Support\Facades\Route;
 
 Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
+});
+
+Route::post('/login',[UserApiController::class, 'login']);
+
+Route::middleware(['auth:api'])->group(function(){
+    Route::get('/sales',[SaleApiController::class, 'sales']);
+    Route::post('/sale',[SaleApiController::class, 'create']);
 });
