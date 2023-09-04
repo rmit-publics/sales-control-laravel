@@ -13,7 +13,7 @@ class LoginUseCase {
 
         if (Auth::attempt($credentials)) {
             $request->session()->regenerate();
-            if(Auth::user()->access === 'GD' || Auth::user()->access === 'RD') {
+            if(Auth::user()->access !== 'S') {
                 return redirect()->intended('dashboard');
             } else {
                 return redirect()->intended('sales');

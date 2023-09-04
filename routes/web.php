@@ -17,10 +17,11 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/',[UserController::class, 'login']);
+Route::get('/',[UserController::class, 'login'])->name('login');
 Route::post('/login',[UserController::class, 'authenticate']);
 
-Route::middleware(['web'])->group(function(){
+Route::group(['middleware' => ['auth']], function () {
+    Route::get('/user/logout',[UserController::class, 'logout']);
     Route::get('/user/getSellers/{store_id}',[UserController::class, 'getSeller']);
     Route::get('/store/getStoreByRegion/{region_id}',[StoreController::class, 'getStoreByRegion']);
     Route::get('/store/getStoreByManager/{manager_id}',[StoreController::class, 'getStoreByManager']);

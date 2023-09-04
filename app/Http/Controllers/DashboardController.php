@@ -16,7 +16,7 @@ class DashboardController extends Controller
         $stores = Store::auth()
             ->get();
 
-        if($user->access !== 'GD' && $user->access !== 'RD') {
+        if($user->access === 'S') {
             return redirect('sales');
         }
 

@@ -40,6 +40,7 @@
         padding: 20px;
         border-radius: 10px;
         border: solid 1px silver;
+        margin-bottom: 10px;
     }
     .button {
         margin-top: 25px;
@@ -114,7 +115,7 @@
 
             if(markersData[i].amount > 0) {
                 var center = new google.maps.LatLng(markersData[i].position.lat,  markersData[i].position.lng);
-                var radius = markersData[i].amount * 10000; // Define o raio em metros
+                var radius = markersData[i].amount * 100; // Define o raio em metros
 
                 var circle = new google.maps.Circle({
                     center: center,
