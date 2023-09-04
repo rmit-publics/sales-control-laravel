@@ -15,14 +15,13 @@
 
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
           <ul class="navbar-nav mr-auto">
+            @if(Auth::user()->access === 'GD' || Auth::user()->access === 'RD')
             <li class="nav-item active">
               <a class="nav-link" href="/dashboard">Dashboard</a>
             </li>
+            @endif
             <li class="nav-item">
               <a class="nav-link" href="/sales">Vendas</a>
-            </li>
-            <li>
-              {{ Auth::user()->name}} - {{ Auth::user()->access}}
             </li>
           </ul>
         </div>

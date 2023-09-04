@@ -16,6 +16,10 @@ class DashboardController extends Controller
         $stores = Store::auth()
             ->get();
 
+        if($user->access !== 'GD' && $user->access !== 'RD') {
+            return redirect('sales');
+        }
+
         $stores = $stores->map(function($store) {
             $store['amount'] = $store->sales->sum('amount');
             return $store;
