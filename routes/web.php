@@ -31,4 +31,5 @@ Route::middleware(['web'])->group(function(){
     Route::get('/sale/create',[SaleController::class, 'create']);
     Route::post('/sale/create',[SaleController::class, 'store']);
     Route::get('/dashboard',[DashboardController::class, 'index']);
+    Route::post('/dashboard',[DashboardController::class, 'search']);
 });

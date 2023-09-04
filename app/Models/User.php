@@ -66,8 +66,12 @@ class User extends Authenticatable
         return $this->whereIn('id', $managers)->where('access', 'M')->get();
     }
 
-    public function SellerStore() {
+    public function seller() {
         return $this->hasOne(Store::class, 'id', 'store_id');
+    }
+
+    public function regionManager() {
+        return $this->hasOne(RegionManager::class, 'user_id', 'id');
     }
 
 }

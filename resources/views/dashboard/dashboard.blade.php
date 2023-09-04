@@ -3,45 +3,38 @@
 <h1>Dashboard</h1>
 <script src="https://maps.googleapis.com/maps/api/js?key=&callback=initMap" async defer></script>
     <div class="container filter" onload="loadData()">
-        <div class="row">
-            @if(Auth::user()->access === 'GD')
-            <div class="col-sm-3">
-                <div class="form-group">
-                    <label for="exampleInputEmail1">Região</label>
-                    <select onchange="getStores()" id="region_id" name="region_id" class="form-control form-control">
-                        @foreach ($regions as $region)
-                        <option value="{{$region->id}}">{{$region->name}}</option>
-                        @endforeach
-                    </select>
+        <form method="POST" action="dashboard">
+            @csrf
+            <div class="row">
+                @if(Auth::user()->access === 'GD')
+                <div class="col-sm-4">
+                    <div class="form-group">
+                        <label for="exampleInputEmail1">Região</label>
+                        <select onchange="getStores()" id="region_id" name="region_id" class="form-control form-control">
+                            <option value="0">Selecione</option>
+                            @foreach ($regions as $region)
+                            <option value="{{$region->id}}">{{$region->name}}</option>
+                            @endforeach
+                        </select>
+                    </div>
+                </div>
+                @endif
+                @if(Auth::user()->access === 'GD' || Auth::user()->access === 'RD')
+                <div class="col-sm-6">
+                    <div class="form-group">
+                        <label for="exampleInputEmail1">Loja</label>
+                        <select id="store_id" name="store_id" class="form-control form-control">
+                        </select>
+                    </div>
+                </div>
+                <div class="col-sm-2">
+                    <button type="submit" class="btn btn-primary button">Pesquisar</button>
+                </div>
+                @endif
                 </div>
             </div>
-            @endif
-            @if(Auth::user()->access === 'GD' || Auth::user()->access === 'RD')
-            <div class="col-sm-3">
-                <div class="form-group">
-                    <label for="exampleInputEmail1">Loja</label>
-                    <select onchange="getSellers()" id="store_id" name="store_id" class="form-control form-control">
-                        @foreach ($stores as $store)
-                        <option value="{{$store->id}}">{{$store->name}}</option>
-                        @endforeach
-                    </select>
-                </div>
-            </div>
-            <div class="col-sm-4">
-                <div class="form-group">
-                    <label for="exampleInputEmail1">Vendedor</label>
-                    <select id="seller_id" name="seller_id" class="form-control form-control">
-
-                    </select>
-                </div>
-            </div>
-            <div class="col-sm-2">
-                <button type="button" class="btn btn-primary button">Pesquisar</button>
-            </div>
-            @endif
-            </div>
-        </div>
-      <div id="map" style="width: 100%; height: 400px;"></div>
+        </form>
+      <div id="map" class="map" style="width: 100%; min-height: 800px;"></div>
 <style>
     .filter {
         padding: 20px;
@@ -56,27 +49,31 @@
 @section('custom-js')
 <script>
 
-    window.onload = getSellers();
+    @if(Auth::user()->access === 'RD')
+        async function getStoresRD() {
+            const sellers = await fetch(`/store/getStoreByRegion/{{Auth::user()->regionManager->region_id}}`)
+            var data = await sellers.json();
+            var select = document.getElementById("store_id");
+            select.options[select.options.length] = new Option('Selecione', 0);
+            for (let i = 0; i < data.length; i++) {
+                select.options[select.options.length] = new Option(data[i].name, data[i].id);
+            }
+        }
+        const data = (async()=> {
+            getStoresRD();
+        })
+
+        data()
+    @endif
 
     async function getStores() {
         document.getElementById('store_id').innerText = null;
-        var regionIdd = document.getElementById("region_id").value;
-        const sellers = await fetch(`/store/getStoreByRegion/${regionIdd}`)
-        var data = await sellers.json();
+        var regionId = document.getElementById("region_id").value;
+        const stores = await fetch(`/store/getStoreByRegion/${regionId}`)
+        var data = await stores.json();
+        var select = document.getElementById("store_id");
+        select.options[select.options.length] = new Option('Selecione', 0);
         for (let i = 0; i < data.length; i++) {
-            var select = document.getElementById("store_id");
-            select.options[select.options.length] = new Option(data[i].name, data[i].id);
-        }
-        getSellers()
-    }
-
-    async function getSellers() {
-        document.getElementById('seller_id').innerText = null;
-        var storeId = document.getElementById("store_id").value;
-        const sellers = await fetch(`/user/getSellers/${storeId}`)
-        var data = await sellers.json();
-        for (let i = 0; i < data.length; i++) {
-            var select = document.getElementById("seller_id");
             select.options[select.options.length] = new Option(data[i].name, data[i].id);
         }
     }
@@ -104,6 +101,7 @@
 
             // Loop para criar e adicionar marcadores com janelas de informações
             for (var i = 0; i < markersData.length; i++) {
+                var data = markersData[i];
                 var marker = new google.maps.Marker({
                     position: markersData[i].position,
                     map: map,
@@ -130,9 +128,13 @@
                     });
                 }
                 // Adicione um evento de clique para exibir a janela de informações quando o marcador for clicado
-                marker.addListener('click', function () {
-                    infoWindow.open(map, this);
+                (function (marker, data) {
+                google.maps.event.addListener(marker, "click", function (e) {
+                    //Wrap the content inside an HTML DIV in order to set height and width of InfoWindow.
+                    infoWindow.setContent(`<div style='width:200px;min-height:40px'><h3>` + data.title + `</h3></div>`);
+                    infoWindow.open(map, marker);
                 });
+                })(marker, data);
                 bounds.extend(marker.position)
             }
 
