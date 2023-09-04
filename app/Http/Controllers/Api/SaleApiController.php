@@ -2,11 +2,11 @@
 
 namespace App\Http\Controllers\Api;
 
-use App\Http\Controllers\Controller;
 use App\Models\Sale;
-use App\UseCases\Sale\Api\CreateSaleApiUseCase;
-use Illuminate\Http\Request;
+use App\Http\Requests\SaleRequest;
 use Illuminate\Support\Facades\Auth;
+use App\Http\Controllers\Controller;
+use App\UseCases\Sale\Api\CreateSaleApiUseCase;
 
 class SaleApiController extends Controller
 {
@@ -22,7 +22,7 @@ class SaleApiController extends Controller
         return $sales;
     }
 
-    public function create(Request $request) {
+    public function create(SaleRequest $request) {
         return $this->createSaleApiUseCase->execute($request);
     }
 }

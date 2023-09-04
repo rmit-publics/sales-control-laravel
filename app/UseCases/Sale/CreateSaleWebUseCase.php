@@ -2,6 +2,7 @@
 
 namespace App\UseCases\Sale;
 
+use App\Http\Requests\SaleRequest;
 use App\Models\Sale;
 use App\Models\Store;
 use Exception;
@@ -16,7 +17,7 @@ class CreateSaleWebUseCase {
         $this->createSaleUseCase = new CreateSaleUseCase();
     }
 
-    public function execute(Request $request) {
+    public function execute(SaleRequest $request) {
         $response = $this->createSaleUseCase->execute($request);
 
         if($response) {

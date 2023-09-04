@@ -2,6 +2,7 @@
 
 namespace App\UseCases\Sale;
 
+use App\Http\Requests\SaleRequest;
 use App\Models\Sale;
 use App\Models\Store;
 use Exception;
@@ -10,7 +11,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
 
 class CreateSaleUseCase {
-    public function execute(Request $request) {
+    public function execute(SaleRequest $request) {
         $this->rules($request);
         $roming = $this->isRoming($request);
 

@@ -14,6 +14,7 @@ class CreateSaleApiUseCase {
     }
 
     public function execute(Request $request) {
+        dd('asd');
         $response = $this->createSaleUseCase->execute($request);
 
         if($response) {
