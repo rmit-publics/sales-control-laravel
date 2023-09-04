@@ -44,7 +44,11 @@ class Sale extends Model
         }
     }
 
-    public function SaleSeller() {
+    public function seller() {
         return $this->hasOne(User::class, 'id', 'seller_id');
+    }
+
+    public function store() {
+        return $this->hasOne(Store::class, 'id', 'store_id');
     }
 }

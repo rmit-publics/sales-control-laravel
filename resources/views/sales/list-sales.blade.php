@@ -67,6 +67,7 @@
                 <th scope="col">#</th>
                 <th scope="col">Produto</th>
                 <th scope="col">Vendedor</th>
+                <th scope="col">Loja</th>
                 <th scope="col">Valor</th>
                 <th scope="col">Ações</th>
             </tr>
@@ -74,13 +75,13 @@
             <tbody>
             @foreach ($sales as $sale)
             <tr>
-                <th scope="row">1</th>
-                <td>Mark</td>
-                <td>Otto</td>
-                <td>@mdo</td>
+                <th scope="row">{{$sale->id}}</th>
+                <td>{{$sale->product}}</td>
+                <td>{{$sale->seller->name}}</td>
+                <td>{{$sale->store->name}}</td>
+                <td>R$ {{$sale->amount}}</td>
                 <td>
-                    <button type="button" class="btn btn-warning">Editar</button>
-                    <button type="button" class="btn btn-danger">Deletar</button>
+                    <a href="/sale/create/{{$sale->id}}" type="button" class="btn btn-warning">Editar</a>
                 </td>
             </tr>
             @endforeach

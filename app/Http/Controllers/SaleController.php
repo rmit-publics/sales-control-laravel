@@ -95,7 +95,7 @@ class SaleController extends Controller
      */
     public function show(Sale $sale)
     {
-        //
+        return view('sales.edit-sale', ['sale'=>$sale]);
     }
 
     /**

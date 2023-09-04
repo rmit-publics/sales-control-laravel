@@ -79,67 +79,67 @@
     }
 
     function initMap() {
-            var mapOptions = {
-                center: { lat: -34.397, lng: 150.644 }, // Coordenadas iniciais do mapa
-                zoom: 8, // Nível de zoom inicial
-            };
-            var bounds = new google.maps.LatLngBounds();
-            var map = new google.maps.Map(document.getElementById('map'), mapOptions);
+        var mapOptions = {
+            center: { lat: -34.397, lng: 150.644 }, // Coordenadas iniciais do mapa
+            zoom: 8, // Nível de zoom inicial
+        };
+        var bounds = new google.maps.LatLngBounds();
+        var map = new google.maps.Map(document.getElementById('map'), mapOptions);
 
-            // Dados dos marcadores
-            var markersData = [
-                @foreach ($stores as $store)
-                {
-                    position: { lat: {{$store->lat}}, lng: {{$store->lng}} },
-                    title: '{{$store->name}}',
-                    content: '{{$store->name}}',
-                    amount: {{$store->amount}}
-                },
-                @endforeach
+        // Dados dos marcadores
+        var markersData = [
+            @foreach ($stores as $store)
+            {
+                position: { lat: {{$store->lat}}, lng: {{$store->lng}} },
+                title: '{{$store->name}}',
+                content: '{{$store->name}}',
+                amount: {{$store->amount}}
+            },
+            @endforeach
 
-            ];
+        ];
 
-            // Loop para criar e adicionar marcadores com janelas de informações
-            for (var i = 0; i < markersData.length; i++) {
-                var data = markersData[i];
-                var marker = new google.maps.Marker({
-                    position: markersData[i].position,
+        // Loop para criar e adicionar marcadores com janelas de informações
+        for (var i = 0; i < markersData.length; i++) {
+            var data = markersData[i];
+            var marker = new google.maps.Marker({
+                position: markersData[i].position,
+                map: map,
+                title: markersData[i].title
+            });
+
+            var infoWindow = new google.maps.InfoWindow({
+                content: markersData[i].content
+            });
+
+            if(markersData[i].amount > 0) {
+                var center = new google.maps.LatLng(markersData[i].position.lat,  markersData[i].position.lng);
+                var radius = markersData[i].amount * 10000; // Define o raio em metros
+
+                var circle = new google.maps.Circle({
+                    center: center,
+                    radius: radius,
                     map: map,
-                    title: markersData[i].title
+                    fillColor: '#FF0000', // Cor de preenchimento do círculo
+                    fillOpacity: 0.35, // Opacidade do preenchimento
+                    strokeColor: '#FF0000', // Cor da borda
+                    strokeOpacity: 0.8, // Opacidade da borda
+                    strokeWeight: 2 // Largura da borda
                 });
-
-                var infoWindow = new google.maps.InfoWindow({
-                    content: markersData[i].content
-                });
-
-                if(markersData[i].amount > 0) {
-                    var center = new google.maps.LatLng(markersData[i].position.lat,  markersData[i].position.lng);
-                    var radius = markersData[i].amount * 10000; // Define o raio em metros
-
-                    var circle = new google.maps.Circle({
-                        center: center,
-                        radius: radius,
-                        map: map,
-                        fillColor: '#FF0000', // Cor de preenchimento do círculo
-                        fillOpacity: 0.35, // Opacidade do preenchimento
-                        strokeColor: '#FF0000', // Cor da borda
-                        strokeOpacity: 0.8, // Opacidade da borda
-                        strokeWeight: 2 // Largura da borda
-                    });
-                }
-                // Adicione um evento de clique para exibir a janela de informações quando o marcador for clicado
-                (function (marker, data) {
-                google.maps.event.addListener(marker, "click", function (e) {
-                    //Wrap the content inside an HTML DIV in order to set height and width of InfoWindow.
-                    infoWindow.setContent(`<div style='width:200px;min-height:40px'><h3>` + data.title + `</h3></div>`);
-                    infoWindow.open(map, marker);
-                });
-                })(marker, data);
-                bounds.extend(marker.position)
             }
-
-            map.fitBounds(bounds);
-
+            // Adicione um evento de clique para exibir a janela de informações quando o marcador for clicado
+            (function (marker, data) {
+            google.maps.event.addListener(marker, "click", function (e) {
+                //Wrap the content inside an HTML DIV in order to set height and width of InfoWindow.
+                infoWindow.setContent(`<div style='width:200px;min-height:40px'><h3>` + data.title + `</h3></div>`);
+                infoWindow.open(map, marker);
+            });
+            })(marker, data);
+            bounds.extend(marker.position)
         }
+
+        map.fitBounds(bounds);
+
+    }
 </script>
 @endsection

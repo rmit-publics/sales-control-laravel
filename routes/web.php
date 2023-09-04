@@ -28,7 +28,7 @@ Route::middleware(['web'])->group(function(){
     Route::post('/sales',[SaleController::class, 'search']);
     Route::get('/sales',[SaleController::class, 'index']);
     Route::get('/sale/create',[SaleController::class, 'create']);
-    Route::get('/sale/create',[SaleController::class, 'create']);
+    Route::get('/sale/create/{sale}',[SaleController::class, 'show']);
     Route::post('/sale/create',[SaleController::class, 'store']);
     Route::get('/dashboard',[DashboardController::class, 'index']);
     Route::post('/dashboard',[DashboardController::class, 'search']);
