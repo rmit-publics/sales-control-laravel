@@ -25,4 +25,9 @@ class SaleApiController extends Controller
     public function create(SaleRequest $request) {
         return $this->createSaleApiUseCase->execute($request);
     }
+
+    public function show(Sale $sale)
+    {
+        return $sale;
+    }
 }

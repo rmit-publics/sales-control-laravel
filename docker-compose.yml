@@ -1,12 +1,12 @@
 version: '3.5'
 
 services:
-  laravel-app:
+  app-sale:
     build:
       context: '.'
       args:
         uid: ${UID}
-    container_name: laravel-app
+    container_name: app-sale
     ports:
       - 8000:80
     environment:
@@ -19,10 +19,10 @@ services:
         aliases:
           - app
 
-  database_mysql:
+  database_mysql_sale:
     image: mysql:8
     restart: always
-    container_name: database_mysql
+    container_name: database_mysql_sale
     command: --default-authentication-plugin=mysql_native_password
     ports:
       - 3306:3306
@@ -38,7 +38,7 @@ services:
     networks:
       backend:
         aliases:
-          - database_mysql
+          - database_mysql_sale
 
 networks:
   backend:

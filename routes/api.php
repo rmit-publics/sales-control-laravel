@@ -24,5 +24,6 @@ Route::post('/login',[UserApiController::class, 'login']);
 
 Route::middleware(['auth:api'])->group(function(){
     Route::get('/sales',[SaleApiController::class, 'sales']);
+    Route::get('/sale/{sale}',[SaleApiController::class, 'show']);
     Route::post('/sale',[SaleApiController::class, 'create']);
 });
